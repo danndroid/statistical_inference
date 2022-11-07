@@ -1,1 +1,1 @@
-# statistical_learning
+# statistical_inference
