@@ -2,7 +2,8 @@ from symbol import try_stmt
 import numpy as np
 import pandas as pd
 
-from ..core import Estimator
+from ..kernel import Estimator
+from ..validation import is_fitted
 from .stats import standard_errors, t_statistic, p_value
 
 __all__ = ['OLS'] # for not impotring np and pd to the context
@@ -35,10 +36,8 @@ class OLS(Estimator):
         
         return self.__name
 
-    estimator = property(setname, getname)
+    estimator = property(setname, getname) 
 
-
-    # TODO is_fitted function
     def fit(self, X, y):
 
         self.optimal(X, y)
@@ -57,13 +56,6 @@ class OLS(Estimator):
         self.y = y
         self.weights_ = np.linalg.inv(X.T@X)@X.T@y # Optimization
         self.intercept_ = self.weights_[:1][0]
-
-    # TODO: move to partent
-    def predict(self, X):
-
-        y_hat = X@self.weights_
-
-        return y_hat
 
 
     def moments(self):
