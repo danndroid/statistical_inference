@@ -4,7 +4,7 @@ import pandas as pd
 
 from ..kernel import Estimator
 from ..validation import is_fitted
-from .stats import standard_errors, t_statistic, p_value
+from ..statistics import standard_errors, t_statistic, p_value
 
 __all__ = ['OLS'] # for not impotring np and pd to the context
 
@@ -75,7 +75,7 @@ class OLS(Estimator):
 
 
 
-    def statistics(self):
+    def _calculate_statistics(self): # NON USER ACCESSIBLE METHOD
         print('statistics')
 
         n = len(self.X)
@@ -96,16 +96,17 @@ class OLS(Estimator):
 
 
     def summary_table(self):
+        self._calculate_statistics()
 
         summary_df = pd.DataFrame({'coef': self.weights_,
                     'std_err':self.std_err_,
                     't_stat':self.t_stats_,
                     'low':self.interval_low_,
                     'upp':self.interval_upp_,
-                    'p_val':self.p_values_,
+                    'p_value':self.p_values_,
                     })
 
-        print(summary_df.round(4))
+        return summary_df.round(4)
 
 
 
@@ -115,8 +116,6 @@ class OLS(Estimator):
         summary_df = pd.DataFrame({'coef': self.weights_,
                     'p_val':self.p_values_,
                     })
-
-        #print(summary_df.round(4))
 
         return summary_df.round(4)
 

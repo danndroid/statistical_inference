@@ -8,7 +8,7 @@ def is_fitted(estimator):
     )
 
     attributes = [m for m in vars(estimator) if m.endswith("_") and not m.startswith("__")]
-    print(attributes)
+    print(f'attributes:{attributes}')
 
     if not attributes:
         raise NotFittedError(msg % {'name':type(estimator).__name__})

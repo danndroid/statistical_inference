@@ -26,6 +26,13 @@ class Estimator:
     def predict(self, X):
         self.validate_estimator()
 
+        if X.shape[1] != self.weights_.shape[0] :
+            print('Intercept added')
+            if len(X.shape) == 1:
+                X = np.vstack((np.ones(len(X)), X)).T
+            else:
+                X = np.insert(X, 0, 1, axis=1)
+
         y_hat = X@self.weights_
 
         return y_hat
